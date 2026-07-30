@@ -1,0 +1,179 @@
+@import 'tailwindcss';
+
+/* ============================================================
+   DESIGN SYSTEM — desert contemporary / luxury outdoor living
+   Warm neutral ground (bone / sand / stone / charcoal) carrying the brand
+   blues sampled from the client logo. The neutrals stay warm so the
+   photography reads as continuous with the UI.
+   ============================================================ */
+@theme {
+  /* ---- Colour: warm neutrals, never blue-grey ---- */
+  --color-ink: #1b1a18; /* warm charcoal — primary text */
+  --color-ink-soft: #3a3733;
+  /* Secondary text on light. Tuned so it clears 4.5:1 on the *sand* tint
+     (4.85:1), not just on bone — the lighter #6b6459 only made 4.30:1 there. */
+  --color-graphite: #635c52;
+  --color-stone: #cbbfae; /* warm stone — rules, hairlines */
+  --color-sand: #e4dcd0; /* section tint */
+  --color-bone: #f7f4ef; /* off-white page */
+
+  /* ---- Brand, sampled from public/logo.png ---- */
+  --color-navy: #001f3e; /* wordmark navy */
+  --color-brand: #1f7bb0; /* "POOLS" blue + the ripple mark */
+  --color-cream: #d7cd9e; /* the keyline around the wordmark */
+
+  /* Interactive accent: --color-brand darkened until it clears 4.5:1 on BOTH
+     grounds (bone 6.30:1, sand 5.08:1). The logo blue itself only manages
+     4.24:1 / 3.42:1, so it can't carry small text. Same hue family. */
+  --color-pool: #175f8a;
+
+  /* ---- Type ---- */
+  --font-serif: 'Libre Baskerville', 'Iowan Old Style', Georgia, 'Times New Roman', serif;
+  --font-sans: 'Work Sans', 'Helvetica Neue', Helvetica, sans-serif;
+
+  /* Fluid scale — smooth at every viewport, no jumps */
+  --text-eyebrow: 0.8125rem;
+  --text-lede: clamp(1.02rem, 1.4vw, 1.3rem);
+  --text-h3: clamp(1.2rem, 1.9vw, 1.6rem);
+  --text-h2: clamp(1.85rem, 4.4vw, 3.6rem);
+  --text-display: clamp(2.1rem, 5.4vw, 4.4rem);
+  --text-hero: clamp(2.3rem, 7.2vw, 6rem);
+
+  /* ---- Extra breakpoints for very small + ultrawide ---- */
+  --breakpoint-xs: 26rem; /* 416px */
+  --breakpoint-3xl: 112rem; /* 1792px */
+
+  /* ---- Motion ---- */
+  --ease-out-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-slow: cubic-bezier(0.33, 0.06, 0.17, 1);
+}
+
+/* ---- Base ---- */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: var(--header-h, 5.25rem);
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background-color: var(--color-bone);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-weight: 300;
+    line-height: 1.72;
+    overflow-x: clip;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-weight: 400;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-pool);
+    outline-offset: 3px;
+  }
+
+  /* Consistent media defaults */
+  img {
+    display: block;
+    max-width: 100%;
+  }
+}
+
+/* ---- Reusable component classes ---- */
+@layer components {
+  /* Scroll reveal — soft fade + slide */
+  .reveal {
+    opacity: 0;
+    transform: translateY(1.625rem);
+    transition:
+      opacity 1s var(--ease-out-soft),
+      transform 1s var(--ease-out-soft);
+  }
+  .reveal--in {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Gentle hover zoom on photography */
+  .photo {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    transform: scale(1.005);
+    transition: transform 1.1s var(--ease-slow);
+  }
+  .group:hover .photo,
+  .group:focus-visible .photo {
+    transform: scale(1.055);
+  }
+
+  /* Display type set over photography. The shadow is a legibility aid on top
+     of the scrim — it is deliberately wide and low-opacity so it reads as
+     atmosphere rather than as a drop shadow. */
+  .on-photo {
+    text-shadow:
+      0 1px 2px rgb(0 0 0 / 0.28),
+      0 2px 30px rgb(0 0 0 / 0.35);
+  }
+
+  /* The header sits over open photography until it locks to a solid plate.
+     While transparent, its 13px nav needs the same legibility aid the
+     display type gets; once solid, ink-on-bone needs none. */
+  #siteHeader[data-stuck='false'] .on-photo-nav {
+    text-shadow:
+      0 1px 2px rgb(0 0 0 / 0.4),
+      0 2px 20px rgb(0 0 0 / 0.45);
+  }
+
+  /* Hairline scroll cue */
+  .scroll-cue {
+    animation: drift 2.8s var(--ease-slow) infinite;
+    transform-origin: top;
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: scaleY(0.4);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scaleY(1);
+    opacity: 1;
+  }
+}
+
+/* ---- Respect reduced motion ---- */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+  .photo,
+  .group:hover .photo {
+    transform: none !important;
+  }
+}

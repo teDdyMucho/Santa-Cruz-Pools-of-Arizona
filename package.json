@@ -1,0 +1,25 @@
+{
+  "name": "santa-cruz-pools-of-arizona",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Luxury pool, landscape, and outdoor living design — marketing site",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "media": "node scripts/optimize-images.mjs && node scripts/build-logo.mjs"
+  },
+  "dependencies": {
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8",
+    "react-router": "^8.3.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.3.3",
+    "@vitejs/plugin-react": "^6.0.5",
+    "sharp": "^0.35.3",
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.2.0"
+  }
+}
