@@ -78,10 +78,16 @@ send you to the homepage's.
 preventDefault so the browser never scrolls. Cross-page jumps land instantly;
 same-page jumps glide, matching how a plain anchor felt before.
 
-**Deploying:** client-side routing needs an SPA rewrite, or `/studio` will 404 on
-a hard refresh. `vite preview` does this already. In production add
-`/* → /index.html` (Netlify `_redirects`, Vercel `rewrites`, or `try_files` on
+**Deploying:** `netlify.toml` is committed and handles this — build `npm run
+build`, publish `dist`, Node pinned to 22, and a `/* → /index.html` 200 rewrite
+so deep links survive a hard refresh. Suggested site name: `santacruzpoolsaz`.
+On any other host you need the same rewrite (Vercel `rewrites`, `try_files` on
 nginx).
+
+`npm run media` is deliberately NOT part of the build: the WebP derivatives and
+manifest are committed, so production never installs sharp or touches the
+originals. Re-run it locally whenever you add or replace artwork, then commit
+`public/media/` and `src/data/media-manifest.json`.
 
 **SEO caveat:** this is a client-rendered SPA, so crawlers get an empty shell.
 For a marketing site that matters — prerender the routes at build time or move to
