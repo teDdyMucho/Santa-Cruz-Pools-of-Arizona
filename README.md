@@ -163,6 +163,18 @@ replacing art is: drop the file in, `npm run media`, reference it by basename.
 Current run: **33 images, 86.4 MB → 15.8 MB WebP (82% smaller)**, plus the two
 logo lockups.
 
+### Video encoding
+
+The delivered clips were 4.2–7.2 Mbps (42 MB total) with the `moov` atom at the
+**end** of each file, so a browser had to range-request the tail before it could
+decode a frame. Measured on a slow link, the hero took 21 s to show its first
+frame. `scripts/encode-video.mjs` re-encodes at CRF 27 / 1.6 Mbps cap with
+`+faststart`: **42 MB → 8.6 MB (80% smaller)**, ~1.11 Mbps, visually
+indistinguishable at 720p.
+
+ffmpeg-static is deliberately not a saved dependency — it would add ~80 MB to
+every Netlify build. Install it on demand when you add new footage.
+
 ### Hero video
 
 The eight clips split by name. The four **`dynamic-*`** clips are the night and
