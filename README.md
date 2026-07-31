@@ -67,6 +67,10 @@ reports 0 vulnerabilities.
 `components/Layout.jsx` holds the header, footer, and scroll behaviour; pages
 render into its `<Outlet/>`.
 
+**Process is deliberately absent from the primary nav** — the homepage already
+carries the same five stages. The `/process` page still exists and is linked
+from the footer and from the Services page, so nothing 404s.
+
 **Link conventions.** `nav` items in `site.js` use `to`, always a full
 destination: `/studio` for a page, `/#work` for a homepage section. Anything
 starting with `/` goes through the router via `SmartLink`; everything else

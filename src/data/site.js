@@ -31,7 +31,9 @@ export const nav = [
   { label: 'Studio', to: '/studio' },
   { label: 'Services', to: '/services' },
   { label: 'Work', to: '/work' },
-  { label: 'Process', to: '/process' },
+  /* Process is intentionally not in the primary nav — the homepage already
+     carries the same five stages. The /process page still exists and is
+     reachable from the footer and from the Services page. */
   { label: 'Contact', to: '/contact' },
 ]
 

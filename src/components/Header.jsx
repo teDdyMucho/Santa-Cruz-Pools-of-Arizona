@@ -164,7 +164,14 @@ export default function Header() {
       >
         <nav aria-label="Mobile">
           <ul className="grid gap-4">
-            {[...nav.slice(0, 4), { label: 'Testimonials', to: '/#voices' }, nav[4]].map(
+            {/* Testimonials slots in just before Contact. Derived from nav's
+                length rather than fixed indices, so changing the nav can't
+                leave an undefined item here. */}
+            {[
+              ...nav.slice(0, -1),
+              { label: 'Testimonials', to: '/#voices' },
+              nav[nav.length - 1],
+            ].map(
               (item) => (
                 <li key={item.to}>
                   <SmartLink
