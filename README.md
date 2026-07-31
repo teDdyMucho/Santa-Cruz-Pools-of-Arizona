@@ -172,7 +172,8 @@ footage, used singly on a loop as subpage heroes:
 
 | Placement | Clip |
 | --- | --- |
-| Home hero + contact CTA | `dynamic-1 → 2 → 3 → 4`, crossfading, looping |
+| Home hero | `dynamic-1 → 2 → 3 → 4`, crossfading, looping |
+| Contact CTA (every page) | `static-1 → 2 → 3 → 4`, crossfading, looping, lazy |
 | `/studio` | `static-1` — sunken fire lounge, water walls, ramada |
 | `/services` | `static-4` — all four disciplines in one frame |
 | `/work` | `static-2` — backlit sunset down a long pool |

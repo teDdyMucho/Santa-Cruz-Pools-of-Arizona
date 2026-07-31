@@ -625,8 +625,22 @@ export const testimonials = [
   },
 ]
 
+/* The contact CTA runs its own film: the four daylight `static-*` clips,
+   1 → 2 → 3 → 4, crossfading the same way the hero does. Deliberately the
+   opposite footage to the hero's night `dynamic-*` set, so scrolling the
+   homepage top to bottom moves from dusk into daylight rather than repeating. */
+export const closingClips = [
+  '/image/static-1.mp4',
+  '/image/static-2.mp4',
+  '/image/static-3.mp4',
+  '/image/static-4.mp4',
+]
+
 export const closing = {
-  image: 'twentysix',
+  /* Frame 0 of static-1 — the same still the /studio hero uses, since both
+     open on that clip. No second copy of the same frame. */
+  poster: 'studio-poster',
+  alt: 'A sunken fire lounge and sheer-descent water walls beside a ramada and pool.',
   eyebrow: 'Begin',
   title: ['Let’s walk your', 'property together.'],
   lede: 'Consultations are unhurried and without obligation. Financing is available on approved credit for projects of every scale.',

@@ -1,4 +1,4 @@
-import { brand, closing, hero, heroClips } from '../data/site'
+import { brand, closing, closingClips } from '../data/site'
 import HeroVideo from './HeroVideo'
 import { Button, Eyebrow, Reveal, WRAP } from './ui'
 
@@ -9,10 +9,16 @@ export default function Closing() {
       aria-labelledby="closingTitle"
       className="relative isolate grid min-h-[88svh] items-center py-[clamp(4.5rem,12vw,11rem)] text-center text-white"
     >
-      {/* Same eight-clip film as the homepage hero, but lazy: this block sits
-          at the foot of every page, so the clips only start loading once it is
-          within 300px of the viewport. The poster is frame 0 of clip 1. */}
-      <HeroVideo clips={heroClips} poster={hero.poster} alt={hero.alt} objectPosition="center 55%" lazy />
+      {/* The four static-* clips, crossfading 1 → 2 → 3 → 4 and looping. Lazy:
+          this block sits at the foot of every page, so nothing loads until it
+          is within 300px of the viewport. The poster is frame 0 of static-1. */}
+      <HeroVideo
+        clips={closingClips}
+        poster={closing.poster}
+        alt={closing.alt}
+        objectPosition="center 55%"
+        lazy
+      />
 
       {/* Copy is centred over moving footage, so it needs a radial pool under
           it rather than a directional wash. */}
