@@ -57,17 +57,14 @@ export function imageProps(name, sizes = '100vw') {
 }
 
 /* ---------- Hero ----------
-   All eight clips, played back to back with a crossfade so they read as one
-   continuous film. Order is chronological by capture time. */
+   The four `dynamic-*` clips — the night and dusk footage — played back to back
+   with a crossfade so they read as one continuous film. The `static-*` clips
+   are the daylight ones, used singly as looping subpage heroes. */
 export const heroClips = [
-  '/image/hf_20260728_195110_04d908ed-71fb-46de-9c75-30805a3c7caf.mp4',
-  '/image/hf_20260728_195539_b75b3bc3-ca3d-47d2-9ac6-693dc6383d8c.mp4',
-  '/image/hf_20260728_200546_c492305a-6360-4c71-8f7c-458fb1d1b2f7.mp4',
-  '/image/hf_20260728_201908_3f77994b-adeb-42bf-8bf2-5c071c712751.mp4',
-  '/image/hf_20260728_204526_595b4f34-843b-49fa-95d2-33d3cfd5bef7.mp4',
-  '/image/hf_20260728_205434_4dfd9fc4-5959-41f1-b90b-6145020d8769.mp4',
-  '/image/hf_20260728_205548_fe077b8b-068b-4233-b9ef-0ab61cfcd61b.mp4',
-  '/image/hf_20260728_210617_16e68d9a-6f45-4b82-bcce-6f2dab3a0816.mp4',
+  '/image/dynamic-1.mp4',
+  '/image/dynamic-2.mp4',
+  '/image/dynamic-3.mp4',
+  '/image/dynamic-4.mp4',
 ]
 
 export const hero = {
@@ -76,7 +73,7 @@ export const hero = {
   poster: 'hero-poster',
   title: ['Where the desert', 'meets still water.'],
   lede: "Design-led pools, landscapes, and outdoor living for Arizona's most considered homes.",
-  alt: 'A sunken fire lounge and sheer-descent water wall beside a desert-contemporary pool.',
+  alt: 'An elevated view of a lit pool, spa, and fire terrace at night.',
 }
 
 export const promise = {
@@ -269,8 +266,9 @@ export const studio = {
      Both are referenced from `promise` rather than duplicated, so editing the
      homepage can never leave this page saying something different. */
   hero: {
-    image: 'sixteen',
-    alt: 'A shaded ramada and pool terrace holding the last warm light of the day.',
+    clip: '/image/static-1.mp4',
+    poster: 'studio-poster',
+    alt: 'A sunken fire lounge and sheer-descent water walls beside a ramada and pool.',
     eyebrow: 'The Studio',
     title: promise.title,
     lede: 'A small design-build practice for Scottsdale, Paradise Valley, and Greater Phoenix.',
@@ -454,9 +452,9 @@ export const workPage = {
   hero: {
     /* Single looping clip, like /services — a different one, so the two
        subpages don't open on the same footage. */
-    clip: '/image/hf_20260728_210617_16e68d9a-6f45-4b82-bcce-6f2dab3a0816.mp4',
-    poster: 'work-hero',
-    alt: 'A dusk terrace with fire bowls and a lit pool reading out to the mountains.',
+    clip: '/image/static-2.mp4',
+    poster: 'work-poster',
+    alt: 'A backlit sunset down a long pool, raised spa, and a row of loungers.',
     eyebrow: 'Selected Work',
     title: ['Private commissions', 'across the valley.'],
     lede: 'A small number of projects each year, documented in full. Every image below is a completed commission.',
@@ -488,7 +486,7 @@ export const servicesPage = {
     /* A single looping clip rather than the homepage's eight-clip film.
        This one shows all four disciplines in one frame — pool and spa,
        hardscape, the planting bed, and the ramada. */
-    clip: '/image/hf_20260728_201908_3f77994b-adeb-42bf-8bf2-5c071c712751.mp4',
+    clip: '/image/static-4.mp4',
     poster: 'services-poster',
     alt: 'A sunset terrace with pool, raised spa, sculpted planting, and a dining ramada.',
     eyebrow: 'Disciplines',

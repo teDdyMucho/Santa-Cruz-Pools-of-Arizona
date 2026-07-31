@@ -165,8 +165,20 @@ logo lockups.
 
 ### Hero video
 
-All eight clips (1280×720, 8.1 s each, 64.8 s total) play back to back as one
-continuous film. `HeroVideo.jsx` leapfrogs two `<video>` elements — while one
+The eight clips split by name. The four **`dynamic-*`** clips are the night and
+dusk footage; they play back to back as one continuous film on the homepage hero
+and the contact CTA. The four **`static-*`** clips are the daylight/golden-hour
+footage, used singly on a loop as subpage heroes:
+
+| Placement | Clip |
+| --- | --- |
+| Home hero + contact CTA | `dynamic-1 → 2 → 3 → 4`, crossfading, looping |
+| `/studio` | `static-1` — sunken fire lounge, water walls, ramada |
+| `/services` | `static-4` — all four disciplines in one frame |
+| `/work` | `static-2` — backlit sunset down a long pool |
+| `/process` | still image (frame of `static-3`) |
+
+The multi-clip film `HeroVideo.jsx` leapfrogs two `<video>` elements — while one
 plays, the other has already buffered the next clip — so each handover is a
 900 ms crossfade rather than the black flash you get from swapping `src` on a
 single element. The set loops.
