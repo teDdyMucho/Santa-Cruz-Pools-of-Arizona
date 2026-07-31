@@ -28,6 +28,11 @@ export default function HeroVideo({
   const aRef = useRef(null)
   const bRef = useRef(null)
   const [play, setPlay] = useState(false)
+  /* The video must not touch the network until the poster has painted.
+     HTTP/2 multiplexes them, so a 4 MB clip starting alongside a 126 KB still
+     starves it — measured 13.9s for the poster instead of well under 1s, which
+     is what left the hero black on first load. */
+  const [posterReady, setPosterReady] = useState(false)
 
   useEffect(() => {
     const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -57,7 +62,7 @@ export default function HeroVideo({
   const single = clips.length === 1
 
   useEffect(() => {
-    if (!play) return
+    if (!play || !posterReady) return
     const a = aRef.current
     if (!a) return
 
@@ -123,12 +128,19 @@ export default function HeroVideo({
       next = outgoing
     }
 
+    /* Stage the second clip rather than requesting both at mount. Two 6 MB
+       files competing from the first frame is what made the homepage crawl;
+       clip 2 has a full 8 seconds to arrive once clip 1 is actually running. */
+    const queueNext = () => {
+      if (!dead) load(next, 1)
+    }
+
     a.addEventListener('ended', onEnded)
     b.addEventListener('ended', onEnded)
     a.addEventListener('canplay', revealFirst, { once: true })
+    a.addEventListener('playing', queueNext, { once: true })
 
     load(cur, 0)
-    load(next, 1)
     cur.play().catch(() => {})
 
     return () => {
@@ -137,13 +149,14 @@ export default function HeroVideo({
       a.removeEventListener('ended', onEnded)
       b.removeEventListener('ended', onEnded)
       a.removeEventListener('canplay', revealFirst)
+      a.removeEventListener('playing', queueNext)
       for (const el of [a, b]) {
         el.pause()
         el.removeAttribute('src')
         el.load()
       }
     }
-  }, [play, clips, single])
+  }, [play, posterReady, clips, single])
 
   const layer =
     'absolute inset-0 h-full w-full object-cover opacity-0 transition-opacity ' +
@@ -154,13 +167,18 @@ export default function HeroVideo({
       <img
         {...imageProps(poster, '100vw')}
         alt={alt}
-        fetchPriority="high"
+        /* A lazy placement is the CTA at the foot of the page — its poster
+           has no business competing with the hero's on first paint. */
+        loading={lazy ? 'lazy' : 'eager'}
+        fetchPriority={lazy ? 'low' : 'high'}
         decoding="async"
+        onLoad={() => setPosterReady(true)}
+        onError={() => setPosterReady(true)}
         className="absolute inset-0 h-full w-full object-cover"
         style={{ objectPosition }}
       />
 
-      {play && (
+      {play && posterReady && (
         <>
           <video
             ref={aRef}
@@ -168,7 +186,7 @@ export default function HeroVideo({
             style={{ objectPosition, transitionDuration: `${FADE_MS}ms` }}
             muted
             playsInline
-            preload="auto"
+            preload="none"
             aria-hidden="true"
             tabIndex={-1}
           />
@@ -179,7 +197,7 @@ export default function HeroVideo({
               style={{ objectPosition, transitionDuration: `${FADE_MS}ms` }}
               muted
               playsInline
-              preload="auto"
+              preload="none"
               aria-hidden="true"
               tabIndex={-1}
             />
